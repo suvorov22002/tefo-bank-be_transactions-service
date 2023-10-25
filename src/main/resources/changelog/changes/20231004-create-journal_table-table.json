@@ -1,0 +1,106 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2023-10-03_1",
+        "author": "Nazar",
+        "comment": "Create journal_entry table",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "journal_entry",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "bigint",
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "account_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "original_currency_amount",
+                    "type": "decimal ",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "reference_currency_amount",
+                    "type": "decimal ",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "account_balance_type_dictionary_value_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created_at",
+                    "type": "timestamptz",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "updated_at",
+                    "type": "timestamptz"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "updated_by",
+                    "type": "varchar"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "addForeignKeyConstraint": {
+              "baseTableName": "journal_entry",
+              "baseColumnNames": "transaction_id",
+              "referencedTableName": "transaction",
+              "referencedColumnNames": "id",
+              "constraintName": "fk_journal_entry_transaction"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

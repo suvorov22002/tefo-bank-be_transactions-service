@@ -1,0 +1,193 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2023-10-03",
+        "author": "Nazar",
+        "comment": "Create transaction table",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "transaction",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "bigint",
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "number",
+                    "type": "varchar",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "is_manual",
+                    "type": "boolean",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_type",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_channel",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_source",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "entry_date",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "value_date",
+                    "type": "timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "execution_date",
+                    "type": "timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "processing_date",
+                    "type": "timestamp"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "currency_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "currency_symbol",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "currency_alphabetic_code",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "original_currency_amount",
+                    "type": "decimal ",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "reference_currency_amount",
+                    "type": "decimal ",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "adjustment_transaction_id",
+                    "type": "bigint"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "external_transaction_number",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "notes",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_status_dictionary_value_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_sub_status_dictionary_value_id",
+                    "type": "bigint"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created_at",
+                    "type": "timestamptz",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "updated_at",
+                    "type": "timestamptz"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "updated_by",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created_by",
+                    "type": "varchar"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

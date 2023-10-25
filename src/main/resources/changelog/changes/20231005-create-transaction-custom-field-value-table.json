@@ -1,0 +1,60 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2023-10-05",
+        "author": "Nazar",
+        "comment": "Create transaction field value table",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "transaction_field_value",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "bigint",
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "code",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "type",
+                    "type": "varchar"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "value",
+                    "type": "jsonb"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "transaction_id",
+                    "type": "bigint",
+                    "constraints": {
+                      "nullable": true,
+                      "foreignKeyName": "fk_transaction_field_value_transaction",
+                      "references": "transaction"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
