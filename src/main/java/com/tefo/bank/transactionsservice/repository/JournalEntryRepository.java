@@ -20,4 +20,6 @@ public interface JournalEntryRepository extends JpaRepository<JournalEntry, Long
     List<JournalEntry> findAllByOrderByCreatedAtDesc();
 
     Page<JournalEntry> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    List<JournalEntry> findAllByAccountNumber(String accountNumber);
 }

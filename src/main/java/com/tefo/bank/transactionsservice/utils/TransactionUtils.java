@@ -33,38 +33,33 @@ public class TransactionUtils {
     private final IdentityServiceClient identityServiceClient;
     private final AccountServiceClient accountServiceClient;
 
-    private static final String ALPHABETIC_ONLY_CODE = "A";
-    private static final String NUMERIC_ONLY_CODE = "N";
-    private static final String ALPHANUMERIC_CODE = "AN";
     private static final String OPEN_BUSINESS_DAY_DATE_KEY = "date";
     private static final Integer NUMBER_OF_DEFAULT_CREDIT_JE = 1;
     private static final Integer NUMBER_OF_DEFAULT_DEBIT_JE = 1;
 
-    public String generateTransactionNumber() {
+    public String generateTransactionNumber(LocalDateTime transactionCreatedAt) {
         TransactionSettingsDTO transactionSettings = coreSettingsServiceClient.getTransactionSettings();
-        DictionaryValueResponseDto transactionSymbols =
-                dictionaryServiceClient.getDictionaryValueById(transactionSettings.getTransactionNumberSymbolsDictionaryValueId());
-        DictionaryValueResponseDto transactionUniquenessTerm =
-                dictionaryServiceClient.getDictionaryValueById(transactionSettings.getTransactionNumberUniquenessTermDictionaryValueId());
-
-        String transactionAllowedSymbols = transactionSymbols.getCode();
-        //TODO logic with UniquenessTerm
-        String transactionUniquenessTermCode = transactionUniquenessTerm.getCode();
 
         int length = transactionSettings.getTransactionNumberLength();
-        boolean useLetters = false;
-        boolean useNumbers = false;
+        boolean useLetters = true;
+        boolean useNumbers = true;
 
-        switch (transactionAllowedSymbols) {
-            case ALPHABETIC_ONLY_CODE -> useLetters = true;
-            case NUMERIC_ONLY_CODE -> useNumbers = true;
-            case ALPHANUMERIC_CODE -> {
-                useNumbers = true;
-                useLetters = true;
-            }
-        }
+        int day = transactionCreatedAt.getDayOfMonth();
+        int month = transactionCreatedAt.getMonthValue();
+        int year = transactionCreatedAt.getYear() % 100;
+        int hour = transactionCreatedAt.getHour();
+        int minute = transactionCreatedAt.getMinute();
+        int second = transactionCreatedAt.getSecond();
 
-        return RandomStringUtils.random(length, useLetters, useNumbers);
+        String dateTimeString = String.format("%02d%02d%02d%02d%02d%02d", day, month, year, hour, minute, second);
+
+        long num = Long.parseLong(dateTimeString);
+
+        String base36 = Long.toString(num, 36);
+
+        String randomSymbols = RandomStringUtils.random(length, useLetters, useNumbers);
+
+        return base36 + randomSymbols;
     }
 
 

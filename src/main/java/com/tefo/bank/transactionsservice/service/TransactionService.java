@@ -24,4 +24,6 @@ public interface TransactionService {
 
     void cancelTransaction(Long transactionId);
 
+    List<TransactionEntity> getTransactionsByAccountNumber(String accountNumber);
+
 }

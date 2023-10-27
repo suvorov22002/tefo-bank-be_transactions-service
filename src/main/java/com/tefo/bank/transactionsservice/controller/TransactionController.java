@@ -53,6 +53,13 @@ public class TransactionController {
                         transactionService.getAllPaginated(pageable), transactionMapper::toDtoList));
     }
 
+    @GetMapping(value = "/all", params = "accountNumber")
+    ResponseEntity<List<TransactionResponseDto>> getAllByAccountNumber(@RequestParam String accountNumber) {
+        return ResponseEntity.ok(
+                transactionMapper.toDtoList(transactionService.getTransactionsByAccountNumber(accountNumber))
+        );
+    }
+
     @PutMapping("/manage/approve/{transactionId}")
     ResponseEntity<Void> approveTransaction(@PathVariable Long transactionId) {
         transactionService.approveTransaction(transactionId);

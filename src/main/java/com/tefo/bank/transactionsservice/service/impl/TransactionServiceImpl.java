@@ -4,6 +4,7 @@ import com.tefo.bank.transactionsservice.feignclient.dto.CurrencyBasicInfoDto;
 import com.tefo.bank.transactionsservice.mapper.TransactionMapper;
 import com.tefo.bank.transactionsservice.model.JournalEntry;
 import com.tefo.bank.transactionsservice.model.TransactionEntity;
+import com.tefo.bank.transactionsservice.repository.JournalEntryRepository;
 import com.tefo.bank.transactionsservice.repository.TransactionRepository;
 import com.tefo.bank.transactionsservice.service.JournalEntryService;
 import com.tefo.bank.transactionsservice.service.TransactionService;
@@ -29,17 +30,18 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper mapper;
     private final TransactionUtils transactionUtils;
     private final JournalEntryService journalEntryService;
+    private final JournalEntryRepository journalEntryRepository;
     private final RequestScope requestScope;
 
     @Override
     @Transactional
     public TransactionEntity createManualTransaction(TransactionEntity transaction) {
+        transaction.setCreatedAt(LocalDateTime.now());
         transactionUtils.calculateTransaction(transaction);
-        transaction.setNumber(transactionUtils.generateTransactionNumber());
+        transaction.setNumber(transactionUtils.generateTransactionNumber(transaction.getCreatedAt()));
         transaction.setCreatedBy(requestScope.getCurrentUserId());
         transaction.setEntryDate(transactionUtils.getEntryDateForTransactionFromCurrentBusinessDay());
         transaction.setIsManual(true);
-        transaction.setCreatedAt(LocalDateTime.now());
         CurrencyBasicInfoDto currencyDto = transactionUtils.getCurrencyBasicInfoDtoById(transaction.getCurrencyId());
         transaction.setCurrencySymbol(currencyDto.getCurrencySymbol());
         transaction.setCurrencyAlphabeticCode(currencyDto.getCurrencyAlphabeticCode());
@@ -109,5 +111,14 @@ public class TransactionServiceImpl implements TransactionService {
         transactionToCancel.setTransactionStatusDictionaryValueId(
                 SystemDictionaryConstants.CANCELED_STATUS_TRANSACTION_DICTIONARY_VALUE_ID.longValue());
         repository.save(transactionToCancel);
+    }
+
+    @Override
+    public List<TransactionEntity> getTransactionsByAccountNumber(String accountNumber) {
+        List<JournalEntry> journalEntriesByAccountNumber = journalEntryRepository.findAllByAccountNumber(accountNumber);
+        return journalEntriesByAccountNumber.stream()
+                .map(JournalEntry::getTransaction)
+                .distinct()
+                .toList();
     }
 }

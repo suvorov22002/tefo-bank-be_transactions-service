@@ -11,6 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TransactionSettingsDTO {
     private Integer transactionNumberLength;
-    private Integer transactionNumberSymbolsDictionaryValueId;
-    private Integer transactionNumberUniquenessTermDictionaryValueId;
 }
